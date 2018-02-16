@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class QuickSort extends SortAlgorithm {
@@ -12,15 +14,17 @@ public class QuickSort extends SortAlgorithm {
 
     /**
      * TODO
-     * Best-case runtime:
-     * Worst-case runtime:
-     * Average-case runtime:
+     * Best-case runtime: O(n)
+     * Worst-case runtime: O(n^2)
+     * Average-case runtime: O(nlogn)
      *
-     * Space-complexity:
+     * Space-complexity: O(nlogn)
      */
     @Override
     public int[] sort(int[] array) {
         // TODO: Sort the array. Make sure you avoid the O(N^2) runtime worst-case
+        Collections.shuffle(Arrays.asList(array));
+        quickSort(array, 0, array.length-1);
         return array;
     }
 
@@ -35,7 +39,11 @@ public class QuickSort extends SortAlgorithm {
     public void quickSort(int[] a, int lo, int hi) {
         if (lo < hi) {
             int p = partition(a, lo, hi);
-            // TODO
+            quickSort(a, lo, p-1);
+            quickSort(a, p+1, hi);
+        }
+        else {
+            return;
         }
     }
 
@@ -49,8 +57,32 @@ public class QuickSort extends SortAlgorithm {
      * @param hi The ending index of the subarray being considered (inclusive)
      */
     public int partition(int[] array, int lo, int hi) {
-        // TODO
-        return 0;
+
+        int[] subarray = Arrays.copyOfRange(array, lo+1, hi+1);
+        int pivot = array[lo];
+        int[] lowarray = new int[array.length];
+        int lowsize = 0;
+        int[] higharray = new int[array.length];
+        int highsize = 0;
+        for(int x : subarray){
+            if(x < pivot){      //go to lowarray
+                lowarray[lowsize] = x;
+                lowsize++;
+            }
+            else {
+                higharray[highsize] = x;
+                highsize++;
+            }
+        }
+        for(int x = 0; x < lowsize; x++){
+            array[x+lo] = lowarray[x];
+        }
+        array[lowsize+lo] = pivot;
+        for(int y = lowsize; y < highsize+lowsize; y++){
+            array[y+1+lo] = higharray[y-lowsize];
+        }
+
+        return lowsize+lo;
     }
 
 }

@@ -62,7 +62,7 @@ public class HeapSortTest {
     private void testSort(SortAlgorithm sorter) {
         assertArrayEquals(sorter.sort(emptyCase), sort(emptyCase));
         assertArrayEquals(sorter.sort(oneCase), sort(oneCase));
-        assertArrayEquals(sorter.sort(twoCase), sort(twoCase));
+        assertArrayEquals(sort(twoCase), sorter.sort(twoCase));
         assertArrayEquals(sorter.sort(twoCase), sort(twoCase));
         assertArrayEquals(sorter.sort(threeCase), sort(threeCase));
         assertArrayEquals(sorter.sort(eightCase), sort(eightCase));
