@@ -7,6 +7,10 @@ public class LocksAndKeys {
     }
     static char[][] locksAndKeys(char[] locks, char[] keys) {
         // TODO: Return a 2d char array, where result[0] is the sorted locks, and result[1] is the sorted keys
+        //Convert to ascii values
+        //sort based on ascii values
+        //convert back
+        //return
         char[][] result = new char[2][];
         result[0] = locks;
         result[1] = keys;
