@@ -1,9 +1,14 @@
 public class CountingSort {
 
     /**
+<<<<<<< HEAD
      * Use counting sort to sort positive integer array A.
      * Runtime: O(n + k)
      * k is the largest number in the array
+=======
+     * Use counting sort to sort non-negative integer array A.
+     * Runtime: TODO
+>>>>>>> 6ef5cd060b5c2a2e260f93ca04e6a62dc4bfacbc
      *
      * k: maximum element in array A
      */
