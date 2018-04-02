@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class NQueens {
@@ -37,6 +38,15 @@ public class NQueens {
         return false;
     }
 
+    public static boolean checkColumn(char[][] board, int c){
+        for(int i = 0; i < board.length; i++){
+            if(board[i][c]=='Q'){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Creates a deep copy of the input array and returns it
@@ -48,10 +58,29 @@ public class NQueens {
         return B;
     }
 
+    public static void recursive(int n, int row, char[][] board, List<char[][]> answers){
+        if(row == n){   //base case
+            answers.add(copyOf(board));
+            return;
+        }
+        for(int x = 0; x < n; x++){
+            if(!(checkColumn(board, x) || checkDiagonal(board, row, x))){
+                board[row][x] = 'Q';
+                recursive(n, row+1, board, answers);
+                board[row][x] = '.';
+            }
+        }
+    }
+
 
     public static List<char[][]> nQueensSolutions(int n) {
         // TODO
         List<char[][]> answers = new ArrayList<>();
+        char[][] startboard = new char[n][n];
+        for(char[] hi : startboard){
+            Arrays.fill(hi, '.');
+        }
+        recursive(n,0, startboard, answers);        //Start in the 0 row
         return answers;
     }
 

@@ -31,17 +31,17 @@ public class Skyline {
 
         points = build_skyline(B);
 
-        System.out.println("BUILT SKYLINE: ");
-        for(Point x : points){
-            System.out.println("X pos: " + x.x + "  Y pos: " + x.y);
-        }
+//        System.out.println("BUILT SKYLINE: ");
+//        for(Point x : points){
+//            System.out.println("X pos: " + x.x + "  Y pos: " + x.y);
+//        }
         List<Point> points2 = condense_skyline(points);
 
 
-        System.out.println("\n\nCONDENSED SKYLINE: ");
-        for(Point x : points){
-            System.out.println("X pos: " + x.x + "  Y pos: " + x.y);
-        }
+//        System.out.println("\n\nCONDENSED SKYLINE: ");
+//        for(Point x : points){
+//            System.out.println("X pos: " + x.x + "  Y pos: " + x.y);
+//        }
 
         points2 = condense_skyline(points2);
 
@@ -58,23 +58,23 @@ public class Skyline {
                 points.add(new Point(i, B[0].h));
             }
             points.add(new Point(B[0].r, 0));
-            System.out.println("Points: ");
-            System.out.println(points.size());
-            for(Point x : points){
-                System.out.println("X pos: " + x.x + "  Y pos: " + x.y);
-            }
+//            System.out.println("Points: ");
+//            System.out.println(points.size());
+//            for(Point x : points){
+//                System.out.println("X pos: " + x.x + "  Y pos: " + x.y);
+//            }
             return points;
         }
 
         List<Point> left, right;
         left = build_skyline(Arrays.copyOfRange(B,0, B.length/2));
         right = build_skyline(Arrays.copyOfRange(B, B.length/2, B.length));
-        System.out.println(left.size());
-        System.out.println(right.size());
-        System.out.println(points.size());
-        for(Point x : points){
-            System.out.println("X pos: " + x.x + "  Y pos: " + x.y);
-        }
+//        System.out.println(left.size());
+//        System.out.println(right.size());
+//        System.out.println(points.size());
+//        for(Point x : points){
+//            System.out.println("X pos: " + x.x + "  Y pos: " + x.y);
+//        }
         points = merge_skyline(left, right);
         return points;
     }
