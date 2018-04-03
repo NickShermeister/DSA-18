@@ -63,6 +63,7 @@ public class Board {
      */
     public boolean solvable() {
         // TODO: Your code here
+        // TODO: NICK
         return false;
     }
 
@@ -71,6 +72,36 @@ public class Board {
      */
     public Iterable<Board> neighbors() {
         // TODO: Your code here
+        // TODO: NICK
+        int[] base = blankFinder();
+        LinkedList<int[]> neighbors = neighborFinder();
+        return null;
+    }
+
+    private int[] blankFinder(){
+        for(int x = 0; x < b.length; x++){
+            for(int y = 0; y < b[0].length; y++){
+                if(tiles[x][y] == 0){
+                    return new int[]{x, y};
+                }
+            }
+        }
+    }
+
+    private List<int[]> neighborFinder(){
+        LinkedList<int[]> neighborhood= new LinkedList<>();
+        int[] curr_loc = blankFinder();
+        if(curr_loc[0] == 0){
+
+        }
+
+        else if(curr_loc[0] == tiles.length){
+
+        }
+        else{
+            
+        }
+
         return null;
     }
 
