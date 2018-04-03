@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,17 @@ public class Board {
      */
     public Board(int[][] b) {
         // TODO: Your code here
+        tiles = b;
+        goal = new int[b.length][b[0].length];
+
+        int counter = 1;
+        for(int x = 0; x < b.length; x++){
+            for(int y = 0; y < b[0].length; y++){
+                goal[x][y] = counter;
+                counter++;
+            }
+        }
+        goal[b.length-1][b[0].length-1] = 0;
     }
 
     /*
