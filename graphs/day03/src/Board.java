@@ -20,41 +20,55 @@ public class Board {
     public Board(int[][] b) {
         // TODO: Your code here
         tiles = b;
-        goal = new int[b.length][b[0].length];
+        n = b.length;
+        goal = new int[n][n];
 
         int counter = 1;
-        for(int x = 0; x < b.length; x++){
-            for(int y = 0; y < b[0].length; y++){
+        for(int x = 0; x < n; x++){
+            for(int y = 0; y < n; y++){
                 goal[x][y] = counter;
                 counter++;
             }
         }
-        goal[b.length-1][b[0].length-1] = 0;
+        goal[n-1][n-1] = 0;
     }
 
     /*
      * Size of the board 
      (equal to 3 for 8 puzzle, 4 for 15 puzzle, 5 for 24 puzzle, etc)
      */
+    /*
+     * Size of the board
+     (equal to 3 for 8 puzzle, 4 for 15 puzzle, 5 for 24 puzzle, etc)
+     */
     private int size() {
-        // TODO: Your code here
-        return 0;
+        return n;
     }
 
     /*
      * Sum of the manhattan distances between the tiles and the goal
      */
     public int manhattan() {
-        // TODO: Your code here
-        return 0;
+        int dist = 0;
+        for(int x = 0; x < n; x++) {
+            for(int y = 0; y < n; y++) {
+                if(tiles[x][y] != goal[x][y] && tiles[x][y] != 0) {
+                    int target = tiles[x][y] -1;
+                    int dest_row = target/n;
+                    int dest_col = target%n;
+                    dist += Math.abs((x-dest_col)) + Math.abs(y-dest_row);
+                }
+            }
+        }
+        System.out.println(dist);
+        return dist;
     }
 
     /*
      * Compare the current state to the goal state
      */
     public boolean isGoal() {
-        // TODO: Your code here
-        return false;
+        return Arrays.deepEquals(tiles, goal);
     }
 
     /*
@@ -73,34 +87,35 @@ public class Board {
     public Iterable<Board> neighbors() {
         // TODO: Your code here
         // TODO: NICK
-        int[] base = blankFinder();
-        LinkedList<int[]> neighbors = neighborFinder();
+//        int[] base = blankFinder();
+//        LinkedList<int[]> neighbors = neighborFinder();
         return null;
     }
 
     private int[] blankFinder(){
-        for(int x = 0; x < b.length; x++){
-            for(int y = 0; y < b[0].length; y++){
+        for(int x = 0; x < n; x++){
+            for(int y = 0; y < n; y++){
                 if(tiles[x][y] == 0){
                     return new int[]{x, y};
                 }
             }
         }
+        return null;
     }
 
     private List<int[]> neighborFinder(){
         LinkedList<int[]> neighborhood= new LinkedList<>();
         int[] curr_loc = blankFinder();
-        if(curr_loc[0] == 0){
-
-        }
-
-        else if(curr_loc[0] == tiles.length){
-
-        }
-        else{
-            
-        }
+//        if(curr_loc[0] == 0){
+//
+//        }
+//
+//        else if(curr_loc[0] == tiles.length){
+//
+//        }
+//        else{
+//
+//        }
 
         return null;
     }
