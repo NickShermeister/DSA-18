@@ -78,8 +78,8 @@ public class Solver {
                     solved = true;
                     break;
                 }
-                if (isSolvable()) {
-                    for (Board neighbor : solutionState.board.neighbors()) {
+                for(Board neighbor : solutionState.board.neighbors()) {
+                    if(neighbor.solvable()) {
                         State newState = new State(neighbor, solutionState.moves+1, solutionState);
                         open.add(newState);
                     }
