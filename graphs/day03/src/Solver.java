@@ -26,7 +26,12 @@ public class Solver {
             this.board = board;
             this.moves = moves;
             this.prev = prev;
-            cost = prev.cost + board.manhattan();
+            if(prev != null) {
+                cost = prev.cost + board.manhattan();
+            }
+            else {
+                cost = board.manhattan();
+            }
         }
 
         @Override
@@ -80,6 +85,7 @@ public class Solver {
                     }
                 }
             }
+            minMoves = solutionState.moves;
         }
 
     }
