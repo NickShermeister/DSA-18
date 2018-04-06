@@ -10,6 +10,8 @@ public class Board {
     private int n;
     public int[][] tiles;
 
+    private LinkedList<Board> neighbors;
+
     //TODO
     // Create a 2D array representing the solved board state
     private int[][] goal = {{}};
@@ -19,6 +21,7 @@ public class Board {
      */
     public Board(int[][] b) {
         // TODO: Your code here
+        neighbors = new LinkedList<>();
         tiles = b;
         n = b.length;
         goal = new int[n][n];
@@ -60,7 +63,7 @@ public class Board {
                 }
             }
         }
-        System.out.println(dist);
+//        System.out.println(dist);
         return dist;
     }
 
@@ -74,11 +77,69 @@ public class Board {
     /*
      * Returns true if the board is solvable
      * Research how to check this without exploring all states
+     * Rules:
+     *
      */
     public boolean solvable() {
         // TODO: Your code here
         // TODO: NICK
-        return false;
+//        int[] puzzle = new int[n * n];
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                puzzle[i*n + j] = tiles[i][j];
+//            }
+//        }
+
+        int parity = 0;
+        int blankRow = 0; // the row with the blank tile
+
+//        int row = 0; // the current row we are on
+//
+//        for (int i = 0; i < puzzle.length; i++) {
+//            if (i % n == 0) { // advance to next row
+//                row++;
+//            }
+//            if (puzzle[i] == 0) { // the blank tile
+//                blankRow = row; // save the row on which encountered
+//                continue;
+//            }
+//            for (int j = i + 1; j < puzzle.length; j++) {
+//                if (puzzle[i] > puzzle[j] && puzzle[j] != 0) {
+//                    System.out.println("i: " + i);
+//                    System.out.println("j: " + j);
+//                    parity++;
+//                }
+//            }
+//        }
+
+
+        for (int i = 0; i < n*n; i++){
+            if(tiles[i/n][i%n] == 0){
+                blankRow = i/3;
+                continue;
+            }
+            for (int j = i + 1; j < n*n; j++) {
+                if (tiles[i/n][i%n] > tiles[j/n][j%n] && tiles[j/n][j%n] != 0) {
+//                    System.out.println("i: " + i);
+//                    System.out.println("j: " + j);
+                    parity++;
+                }
+            }
+        }
+
+
+//        System.out.println("parity: " + parity);
+//        System.out.println("blankRow: " + blankRow);
+        // solvability conditions:
+        if (n % 2 == 0) { // even grid
+            if (blankRow % 2 == 0) { // blank on odd row; counting from bottom
+                return parity % 2 == 0;
+            } else { // blank on even row; counting from bottom
+                return parity % 2 != 0;
+            }
+        } else { // odd grid
+            return parity % 2 == 0;
+        }
     }
 
     /*
@@ -87,10 +148,38 @@ public class Board {
     public Iterable<Board> neighbors() {
         // TODO: Your code here
         // TODO: NICK
-//        int[] base = blankFinder();
-//        LinkedList<int[]> neighbors = neighborFinder();
-        return null;
+        LinkedList<Board> states = new LinkedList<>();
+        LinkedList<int[]> neighbors = neighborFinder();
+        int[] curr_loc = blankFinder();
+
+        for(int[] temp : neighbors){
+//            System.out.println(temp);
+            tiles[curr_loc[0]][curr_loc[1]] = tiles[temp[0]][temp[1]];
+            tiles[temp[0]][temp[1]] = 0;
+            states.add(new Board(deepCopy(tiles)));
+//            System.out.println(states.get(0));
+            tiles[temp[0]][temp[1]] = tiles[curr_loc[0]][curr_loc[1]];
+            tiles[curr_loc[0]][curr_loc[1]] = 0;
+
+        }
+//        System.out.println(states);
+        return states;
     }
+
+    /*
+        Makes a copy of the current 2d array
+     */
+    private int[][] deepCopy(int[][] matrix){
+        int [][] myInt = new int[matrix.length][];
+        for(int i = 0; i < matrix.length; i++)
+            myInt[i] = matrix[i].clone();
+        return myInt;
+    }
+
+
+    /*
+    Find the blank tile (returns int array of [x, y] if exists)
+     */
 
     private int[] blankFinder(){
         for(int x = 0; x < n; x++){
@@ -103,21 +192,44 @@ public class Board {
         return null;
     }
 
-    private List<int[]> neighborFinder(){
+    /*
+    Find the neighbors of the blank tile (those that can be moved)
+     */
+
+    private LinkedList<int[]> neighborFinder(){
         LinkedList<int[]> neighborhood= new LinkedList<>();
         int[] curr_loc = blankFinder();
-//        if(curr_loc[0] == 0){
-//
-//        }
-//
-//        else if(curr_loc[0] == tiles.length){
-//
-//        }
-//        else{
-//
-//        }
+//        System.out.println(Arrays.toString(curr_loc));
+        int x = curr_loc[0];
+        int y = curr_loc[1];
+        int[] loc1 = {x-1, y};
+        int[] loc2 = {x+1, y};
+        int[] loc3 = {x, y-1};
+        int[] loc4 = {x, y+1};
 
-        return null;
+        neighborhood.add(loc1);
+        neighborhood.add(loc2);
+        neighborhood.add(loc3);
+        neighborhood.add(loc4);
+
+
+        if(curr_loc[0] == 0){
+            neighborhood.remove(loc1);
+        }
+
+        else if(curr_loc[0] == tiles.length-1){
+            neighborhood.remove(loc2);
+        }
+        if(curr_loc[1] == 0){
+            neighborhood.remove(loc3);
+        }
+        else if(curr_loc[1] == tiles.length-1){
+            neighborhood.remove(loc4);
+        }
+
+//        System.out.println(neighborhood.toString());
+
+        return neighborhood;
     }
 
     /*
@@ -145,6 +257,18 @@ public class Board {
         return true;
     }
 
+    @Override
+    public String toString() {
+        String stuff = "\n";
+        for(int[] x : tiles){
+            for(int y : x){
+                stuff = stuff + y + " ";
+            }
+            stuff = stuff + "\n";
+        }
+        return stuff;
+    }
+
     public static void main(String[] args) {
         // DEBUG - Your solution can include whatever output you find useful
         int[][] initState = {{1, 2, 3}, {4, 0, 6}, {7, 8, 5}};
@@ -156,5 +280,22 @@ public class Board {
         System.out.println("Is goal: " + board.isGoal());
         System.out.println("Neighbors:");
         Iterable<Board> it = board.neighbors();
+        for(Board x : it){
+            System.out.println(x.toString());
+        }
+        System.out.println("\n\n\n\n");
+
+        int[][] initState2 = {{1, 2, 3}, {4, 5, 6}, {7, 0, 8}};
+        Board board2 = new Board(initState2);
+
+        System.out.println("Size: " + board2.size());
+        System.out.println("Solvable: " + board2.solvable());
+        System.out.println("Manhattan: " + board2.manhattan());
+        System.out.println("Is goal: " + board2.isGoal());
+        System.out.println("Neighbors:");
+        Iterable<Board> it2 = board2.neighbors();
+        for(Board x : it2){
+            System.out.println(x.toString());
+        }
     }
 }
