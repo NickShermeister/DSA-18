@@ -26,8 +26,7 @@ public class Solver {
             this.board = board;
             this.moves = moves;
             this.prev = prev;
-            // TODO
-            cost = 0;
+            cost = prev.cost + board.manhattan();
         }
 
         @Override
@@ -43,8 +42,18 @@ public class Solver {
      * Return the root state of a given state
      */
     private State root(State state) {
-        // TODO: Your code here
-        return null;
+        while(state.prev != null) {
+            return root(state.prev);
+        }
+        return state;
+    }
+
+    public class StateComparator implements Comparator<State>
+    {
+        public int compare( State x, State y )
+        {
+            return x.cost - y.cost;
+        }
     }
 
     /*
@@ -53,7 +62,26 @@ public class Solver {
      * and a identify the shortest path to the the goal state
      */
     public Solver(Board initial) {
-        // TODO: Your code here
+        solutionState = new State(initial, 0, null);
+        if (isSolvable()) {
+            PriorityQueue<State> open = new PriorityQueue<>(11, new StateComparator());
+            HashSet<State> closed = new HashSet<>();
+            open.add(solutionState);
+            while(!open.isEmpty()) {
+                solutionState = open.poll();
+                if(solutionState.board.isGoal()) {
+                    solved = true;
+                    break;
+                }
+                if (isSolvable()) {
+                    for (Board neighbor : solutionState.board.neighbors()) {
+                        State newState = new State(neighbor, solutionState.moves+1, solutionState);
+                        open.add(newState);
+                    }
+                }
+            }
+        }
+
     }
 
     /*
@@ -61,16 +89,21 @@ public class Solver {
      * Research how to check this without exploring all states
      */
     public boolean isSolvable() {
-        // TODO: Your code here
-        return false;
+        return solutionState.board.solvable();
     }
 
     /*
      * Return the sequence of boards in a shortest solution, null if unsolvable
      */
     public Iterable<Board> solution() {
-        // TODO: Your code here
-        return null;
+        Stack<Board> sol = new Stack<>();
+        State state = solutionState;
+        sol.add(state.board);
+        while(state.prev != null) {
+            state = state.prev;
+            sol.add(state.board);
+        }
+        return sol;
     }
 
     public State find(Iterable<State> iter, Board b) {
