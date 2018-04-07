@@ -27,7 +27,7 @@ public class Solver {
             this.moves = moves;
             this.prev = prev;
             if(prev != null) {
-                cost = prev.cost + board.manhattan();
+                cost = prev.moves + board.manhattan();
             }
             else {
                 cost = board.manhattan();
