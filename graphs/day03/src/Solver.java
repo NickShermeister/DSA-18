@@ -73,15 +73,18 @@ public class Solver {
             HashSet<State> closed = new HashSet<>();
             open.add(solutionState);
             while(!open.isEmpty()) {
+                closed.add(solutionState);
                 solutionState = open.poll();
                 if(solutionState.board.isGoal()) {
                     solved = true;
                     break;
                 }
                 for(Board neighbor : solutionState.board.neighbors()) {
-                    if(neighbor.solvable()) {
-                        State newState = new State(neighbor, solutionState.moves+1, solutionState);
-                        open.add(newState);
+                    if (neighbor.solvable()) {
+                        State newState = new State(neighbor, solutionState.moves + 1, solutionState);
+                        if(!closed.contains(newState) && !open.contains(newState)) {
+                            open.add(newState);
+                        }
                     }
                 }
             }
