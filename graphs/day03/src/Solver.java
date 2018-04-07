@@ -80,9 +80,9 @@ public class Solver {
                     break;
                 }
                 for(Board neighbor : solutionState.board.neighbors()) {
-                    if (neighbor.solvable()) {
-                        State newState = new State(neighbor, solutionState.moves + 1, solutionState);
-                        if(!closed.contains(newState) && !open.contains(newState)) {
+                    State newState = new State(neighbor, solutionState.moves + 1, solutionState);
+                    if(!closed.contains(newState) && !open.contains(newState)) {
+                        if (neighbor.solvable()) {
                             open.add(newState);
                         }
                     }

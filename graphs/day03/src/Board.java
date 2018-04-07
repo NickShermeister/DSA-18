@@ -63,7 +63,6 @@ public class Board {
                 }
             }
         }
-//        System.out.println(dist);
         return dist;
     }
 
@@ -83,34 +82,10 @@ public class Board {
     public boolean solvable() {
         // TODO: Your code here
         // TODO: NICK
-//        int[] puzzle = new int[n * n];
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < n; j++) {
-//                puzzle[i*n + j] = tiles[i][j];
-//            }
-//        }
+
 
         int parity = 0;
         int blankRow = 0; // the row with the blank tile
-
-//        int row = 0; // the current row we are on
-//
-//        for (int i = 0; i < puzzle.length; i++) {
-//            if (i % n == 0) { // advance to next row
-//                row++;
-//            }
-//            if (puzzle[i] == 0) { // the blank tile
-//                blankRow = row; // save the row on which encountered
-//                continue;
-//            }
-//            for (int j = i + 1; j < puzzle.length; j++) {
-//                if (puzzle[i] > puzzle[j] && puzzle[j] != 0) {
-//                    System.out.println("i: " + i);
-//                    System.out.println("j: " + j);
-//                    parity++;
-//                }
-//            }
-//        }
 
 
         for (int i = 0; i < n*n; i++){
@@ -120,16 +95,13 @@ public class Board {
             }
             for (int j = i + 1; j < n*n; j++) {
                 if (tiles[i/n][i%n] > tiles[j/n][j%n] && tiles[j/n][j%n] != 0) {
-//                    System.out.println("i: " + i);
-//                    System.out.println("j: " + j);
                     parity++;
                 }
             }
         }
 
 
-//        System.out.println("parity: " + parity);
-//        System.out.println("blankRow: " + blankRow);
+
         // solvability conditions:
         if (n % 2 == 0) { // even grid
             if (blankRow % 2 == 0) { // blank on odd row; counting from bottom
@@ -153,16 +125,13 @@ public class Board {
         int[] curr_loc = blankFinder();
 
         for(int[] temp : neighbors){
-//            System.out.println(temp);
             tiles[curr_loc[0]][curr_loc[1]] = tiles[temp[0]][temp[1]];
             tiles[temp[0]][temp[1]] = 0;
             states.add(new Board(deepCopy(tiles)));
-//            System.out.println(states.get(0));
             tiles[temp[0]][temp[1]] = tiles[curr_loc[0]][curr_loc[1]];
             tiles[curr_loc[0]][curr_loc[1]] = 0;
 
         }
-//        System.out.println(states);
         return states;
     }
 
@@ -199,35 +168,21 @@ public class Board {
     private LinkedList<int[]> neighborFinder(){
         LinkedList<int[]> neighborhood= new LinkedList<>();
         int[] curr_loc = blankFinder();
-//        System.out.println(Arrays.toString(curr_loc));
         int x = curr_loc[0];
         int y = curr_loc[1];
-        int[] loc1 = {x-1, y};
-        int[] loc2 = {x+1, y};
-        int[] loc3 = {x, y-1};
-        int[] loc4 = {x, y+1};
-
-        neighborhood.add(loc1);
-        neighborhood.add(loc2);
-        neighborhood.add(loc3);
-        neighborhood.add(loc4);
-
-
-        if(curr_loc[0] == 0){
-            neighborhood.remove(loc1);
+        if(x >0){
+            neighborhood.add(new int[]{x-1, y});
+        }
+        if(x < n-1){
+            neighborhood.add(new int[]{x+1, y});
+        }
+        if(y > 0){
+            neighborhood.add(new int[]{x, y-1});
+        }
+        if(y < n-1) {
+            neighborhood.add(new int[]{x, y+1});
         }
 
-        else if(curr_loc[0] == tiles.length-1){
-            neighborhood.remove(loc2);
-        }
-        if(curr_loc[1] == 0){
-            neighborhood.remove(loc3);
-        }
-        else if(curr_loc[1] == tiles.length-1){
-            neighborhood.remove(loc4);
-        }
-
-//        System.out.println(neighborhood.toString());
 
         return neighborhood;
     }
