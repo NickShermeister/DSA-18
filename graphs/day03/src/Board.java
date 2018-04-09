@@ -20,7 +20,6 @@ public class Board {
      * Set the global board size and tile state
      */
     public Board(int[][] b) {
-        // TODO: Your code here
         neighbors = new LinkedList<>();
         tiles = b;
         n = b.length;
@@ -118,8 +117,6 @@ public class Board {
      * Return all neighboring boards in the state tree
      */
     public Iterable<Board> neighbors() {
-        // TODO: Your code here
-        // TODO: NICK
         LinkedList<Board> states = new LinkedList<>();
         LinkedList<int[]> neighbors = neighborFinder();
         int[] curr_loc = blankFinder();
