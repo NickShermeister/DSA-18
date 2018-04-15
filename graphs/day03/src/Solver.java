@@ -53,6 +53,7 @@ public class Solver {
         return state;
     }
 
+
     public class StateComparator implements Comparator<State>
     {
         public int compare( State x, State y )
@@ -82,9 +83,7 @@ public class Solver {
                 for(Board neighbor : solutionState.board.neighbors()) {
                     State newState = new State(neighbor, solutionState.moves + 1, solutionState);
                     if(!closed.contains(newState) && !open.contains(newState)) {
-                        if (neighbor.solvable()) {
-                            open.add(newState);
-                        }
+                        open.add(newState);
                     }
                 }
             }
