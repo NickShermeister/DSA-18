@@ -15,7 +15,7 @@ public class Solver {
      * State class to make the cost calculations simple
      * This class holds a board state and all of its attributes
      */
-    private class State {
+    private class State implements Comparable<State>{
         // Each state needs to keep track of its cost and the previous state
         private Board board;
         private int moves; // equal to g-cost in A*
@@ -40,6 +40,11 @@ public class Solver {
             if (s == null) return false;
             if (!(s instanceof State)) return false;
             return ((State) s).board.equals(this.board);
+        }
+
+        @Override
+        public int compareTo(State x) {
+            return cost - x.cost;
         }
     }
 
@@ -70,7 +75,7 @@ public class Solver {
     public Solver(Board initial) {
         solutionState = new State(initial, 0, null);
         if (isSolvable()) {
-            PriorityQueue<State> open = new PriorityQueue<>(11, new StateComparator());
+            PriorityQueue<State> open = new PriorityQueue<>();//11, new StateComparator());
             HashSet<State> closed = new HashSet<>();
             open.add(solutionState);
             while(!open.isEmpty()) {
