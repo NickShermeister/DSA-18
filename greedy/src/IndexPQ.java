@@ -52,6 +52,12 @@ public class IndexPQ<Key extends Comparable<Key>> {
         return min;
     }
 
+    public Key minVal() {
+        if (n==0) throw new NoSuchElementException("blepe");
+        int min = pq[1];
+        return keys[min];
+    }
+
 
     public void changeKey(int i, Key key) {
         if (i < 0 || i >= maxN) throw new IllegalArgumentException();
