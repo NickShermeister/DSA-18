@@ -11,6 +11,7 @@ public class JustificationTest {
     private static double cost(String[] words, int lo, int hi, int m) {
         if (hi <= lo)
             throw new IllegalArgumentException("Hi must be higher than Lo");
+
         int length = hi-lo-1; // account for spaces;
         for (int i = lo; i < hi; i++) {
             length += words[i].length();
